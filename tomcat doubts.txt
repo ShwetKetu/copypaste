@@ -1,0 +1,84 @@
+when and why do we use this command - --with-apxs=/opt/httpd/bin/apxs
+
+Apxs has the been into apache from 1.3 it's called apache extension
+
+It's used when we wanna integrate anything with apache. Complies the module with apxs and this will let the apache know that new software is there and by enabling the modules on the apache level will help apache to communicate with that software which you complied with apxs
+
+Best example is mod cluster installation with apache
+
+sticky session - There is just two option. 0 disable 1 enable
+
+May be. But you can create gskcmd for jks kdb and p12. So can you do with keytool as well. But normally I used kdb keytool and p12 gsk as the commands are same for ikeycmd and gsk are same.
+
+Remove temp and work folder as well. Work folder has the compiled jsp and other files kept there. But it needs a restart.
+
+$$$mod jk configuration at apache web server###
+
+to integrate mod_jk on apache run command after downloading and extracting mod_jk tar file from inside its native folder - ./configure --with-apxs=/opt/httpd/bin/apxs then run make command for its compilation then  move the compiled module to http modules - mv apache-2.0/mod_jk.so /opt/http/modules/ then add the module on httpd.conf - LoadModule jk_module modules/mod_jk.so and you can enable the httpd-vhosts.conf entry by uncommenting it
+
+httpd-vhosts.conf:
+
+JKWorkersFile /opt/http/conf/workers.properties
+JkShmFile logs/mod_jk.shm
+JkLogFile logs/mod_jk.log
+JkLogLevel debug
+
+<VirtualHost *:80>
+ServerAdmin venkatramanvv@gmail.com
+DocumentRoot "/opt/content/IVR"
+ServerName www.ivr.com
+ServerAlias ivr.com
+
+JkMount /examples/* tomcat_cluster    ##name of tomcat cluster , examples application deployed here
+
+ErrorLog "logs/ivr.com-error_log"
+CustomLog "logs/ivr.com-access_log" common
+</VirtualHost>
+<VirtualHost *:80>
+ServerAdmin venkatramanvv@gmail.com
+DocumentRoot "/opt/content/LAC"
+ServerName lac.com
+ServerAlias www.lac.com
+DirectoryIndex index.html default.html
+ErrorLog "logs/lac.com-error_log"
+CustomLog "logs/lac.com-access_log" common
+</VirtualHost>
+
+<Directory "/opt/content">
+Options Indexes FollowSymLinks
+AllowOverride None
+Require all granted
+</Directory>
+
+create workers.properties file:
+
+then restart apache
+
+to check appache has loaded the module jk - /opt/httpd/bin/apachectl -M
+
+##apache configuration done for mod_jk###
+
+###jk module tomcat setup and working wih diff lb algorithm###
+
+vi tomcat/server.xml - 
+
+1. for identification of tomcat instance, provide the jvmRoute="tomcat_server_1" (the same name which you have given in workers.properties) and your sticky session sud be on by making it to "1" from zero to below engine tag and it also enhance the performance of tomcat and also enable ajp protocol configuration and mention the ip address of the system and add the secretRequired="false" (for communication b/w server using secret value sud be enabled in tomcat-9) and the restart tomcat
+<Engine name="Catalina" defaultHost="localhost" jvmRoute="tomcat_server_1">
+
+now u can browse the application deployed on tomcat from web server
+
+if sticky session is not enabled then session persistence (replication of session-the session will keep expiring as next request will go to other server as it does not maintain any session) or affinity will not be there, the request will keep going to both the tomcat server
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,65 @@
+May be. But you can create gskcmd for jks kdb and p12. So can you do with keytool as well. But normally I used kdb keytool and p12 gsk as the commands are same for ikeycmd and gsk are same.
+
+Convert PEM to PFX
+
+openssl pkcs12 -export -out certificate.pfx -inkey privateKey.key -in certificate.crt -certfile CACert.crt
+
+openssl pkcs12 -export -out web_avon_com_mx.p12 -inkey pvt.key -in web_avon_com_mx.crt -certfile TrustedRoot.crt
+
+ikeyman  -   C:\Program Files (x86)\IBM\Personal Communications\java\jre\bin
+jconsole & jvisualvm -  C:\Program Files (x86)\Java\jdk1.8.0_51\bin
+
+Use the command like mode but remember web server uses kdb use keytool and websphere uses p12 use gsk
+
+avonesa  -  lipstick   -   WebAS   -   changeit
+
+keytool -printcert -file /opt/httpserver/keys/gi3prd.kdb
+
+/opt/httpserver/bin/gskcmd -keydb -expiry -db /opt/httpserver/keys/gi3prd.kdb
+
+ /opt/httpserver/bin/gskcapicmd -cert  -details /opt/httpserver/keys/gi3prd.kdb
+
+[root@dlslxgi3pw1 hcladmin]# /opt/httpserver/bin/gskcapicmd -cert  -details /opt/httpserver/keys/gi3prd.kdb | grep -E 'Issuer|Subject|Not Before|Not After'
+ :
+Issuer : "CN=dlslxgi3pw,O=Avon Products INC,C=US"
+Subject : "CN=dlslxgi3pw,O=Avon Products INC,C=US"
+Not Before : June 20, 2021 2:08:53 PM EDT
+Not After : June 18, 2031 2:08:53 PM EDT
+    SubjectKeyIdentifier
+[root@dlslxgi3pw1 hcladmin]#
+
+
+ /opt/httpserver/bin/gskcapicmd -cert  -details /opt/httpserver/keys/gi3prd.kdb | grep -E 'Issuer|Subject|Not Before|Not After'
+
+/opt/httpserver/java/8.0/bin/keytool
+
+-storepasswd
+-keypasswd
+
+keytool -list -v -keystore <path to keystore.pfx> \
+    -storepass <password> \
+    -storetype PKCS12
+
+/opt/httpserver/bin/gskcapicmd -cert  -details /opt/httpserver/keys/gi3prd.kdb | grep -E 'Issuer|Subject|Not Before|Not After'
+
+/opt/httpserver/bin/gskcapicmd -cert  -details /opt/websphere/plugins/config/gi3pw1/plugin-key.kdb | grep -E 'Issuer|Subject|Not Before|Not After'
+
+/opt/websphere/dmanager/java/8.0/bin/keytool -list -v -keystore key.p12 -storepass WebAS -storetype PKCS12 | grep -E 'Issuer|Owner|Valid from'
+
+/opt/websphere/dmanager/java/8.0/bin/keytool -list -v -keystore trust.p12 -storepass WebAS -storetype PKCS12 | grep -E 'Issuer|Owner|Valid from'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
