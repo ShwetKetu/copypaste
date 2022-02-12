@@ -1,0 +1,114 @@
+http://ryelxlaprspap1.dc.avon.net:8080/
+http://ryelxlaprspap1.dc.avon.net:8082
+http://ryelxlaprspap1.dc.avon.net:8084
+
+http://ryelxlaprspap2.dc.avon.net:8080
+http://ryelxlaprspap2.dc.avon.net:8082
+http://ryelxlaprspap2.dc.avon.net:8084
+
+http://ryelxlaprspap3.dc.avon.net:8080/
+http://ryelxlaprspap3.dc.avon.net:8082
+http://ryelxlaprspap3.dc.avon.net:8084
+
+http://ryelxlaprspap4.dc.avon.net:8080/
+http://ryelxlaprspap4.dc.avon.net:8082
+http://ryelxlaprspap4.dc.avon.net:8084
+
+http://ryelxlaprspw1.avon.net/server-status 
+http://ryelxlaprspw2.avon.net/server-status 
+
+Shivapuja, Subodh <sshivapu@akamai.com>
+avonteam@akamai.com
+
+https://www.avon.mx/mx-home
+www.mx.avon.com/REPSuite/loginMain.page
+
+priyas@akamai.com
+
+[‎7/‎28/‎2020 7:47 AM]  Maykon Salvi/SPO/BR:  
+browser -> akamai -> loadbalancer -> webserver -> jvm  => good
+jvm -> akamai -> loadbalancer -> webserver -> jvm  -> bkron sometimes.. intemitent
+so i forced in the host to do not go to akamai
+jvm ->  loadbalancer -> webserver -> jvm 
+none of the other website i this host uses akamai.. that´s why they do not see issue
+ 
+security team is very slow and has a lot to learn
+to open fireall in the right way
+too much impact since when they blocked
+
+AM
+Ankur Manchanda
+Additional comments•2020-07-25 07:27:38
+We checked the web servers & could see multiple daemon process, of which many were stuck/not accepting connections
+
+[root@ryelxlaprspw1 hcladmin]# ps -ef| grep http| wc -l
+76
+
+[root@ryelxlaprspw2 hcladmin]# ps -ef| grep http| wc -l
+
+
+<VirtualHost *:80>
+    DocumentRoot "/www/content/mx"
+    ServerName www.avon.mx
+    ErrorLog "/logs/httpd/www.avon.mx_error_log"
+    CustomLog "/logs/httpd/www.avon.mx_access_log" combined
+
+-----------errors
+
+[Sat Jul 25 00:59:02.107 2020] [21246:140604228978432] [info] jk_handler::mod_jk.c (2799): Aborting connection for worker=live_la
+[Sat Jul 25 00:59:02.123 2020] [16726:140604302407424] [info] ajp_process_callback::jk_ajp_common.c (2000): Writing to client aborted or client network problems
+[Sat Jul 25 00:59:02.123 2020] [16726:140604302407424] [info] ajp_service::jk_ajp_common.c (2673): (live_la_pap4_2) sending request to tomcat failed (unrecoverable), because of client write error (attempt=1)
+[Sat Jul 25 00:59:02.123 2020] [16726:140604302407424] [info] service::jk_lb_worker.c (1519): service failed, worker live_la_pap4_2 is in local error state
+[Sat Jul 25 00:59:02.123 2020] [16726:140604302407424] [info] service::jk_lb_worker.c (1538): unrecoverable error 200, request failed. Client failed in the middle of request, we can't recover to another instance.
+[Sat Jul 25 00:59:02.123 2020] [16726:140604302407424] [info] jk_handler::mod_jk.c (2799): Aborting connection for worker=live_la
+[Sat Jul 25 00:59:02.761 2020] [21308:140604434540288] [info] ajp_process_callback::jk_ajp_common.c (2000): Writing to client aborted or client network problems
+[Sat Jul 25 00:59:02.761 2020] [21308:140604434540288] [info] ajp_service::jk_ajp_common.c (2673): (live_la_pap1_2) sending request to tomcat failed (unrecoverable), because of client write error (attempt=1)
+[Sat Jul 25 00:59:02.762 2020] [21308:140604434540288] [info] service::jk_lb_worker.c (1519): service failed, worker live_la_pap1_2 is in local error state
+[Sat Jul 25 00:59:02.762 2020] [21308:140604434540288] [info] service::jk_lb_worker.c (1538): unrecoverable error 200, request failed. Client failed in the middle of request, we can't recover to another instance.
+[Sat Jul 25 00:59:02.762 2020] [21308:140604434540288] [info] jk_handler::mod_jk.c (2799): Aborting connection for worker=live_la
+
+--------------------------
+
+Caused by: java.net.SocketTimeoutException: Read timed out
+
+20-07-25 01:01:21 ERROR AUTHOR[ajp-nio-10004-exec-503]info.magnolia.rendering.engine.ModeDependentRenderExceptionHandler: Error while rendering URI [/mx-home]:
+RenderException: Error while processing tag '<mgnl:injecturi target="/mx-home~mgnlArea=headerBranding~" X-Magnolia-Cache="ttlValue=0,CacheKeyGenerator=,">'.
+info.magnolia.rendering.engine.RenderException: Error while processing tag '<mgnl:injecturi target="/mx-home~mgnlArea=headerBranding~" X-Magnolia-Cache="ttlValue=0,CacheKeyGenerator=,">'.
+
+-----------------------------------------------------
+
+/root/lista_conn.sh 
+  
+i wrote this script
+
+Lista de conexoes
+
+Conexoes app1_jvm1        7 
+Conexoes app1_jvm2        16 
+Conexoes app1_jvm3        13 
+Conexoes app2_jvm1        7 
+Conexoes app2_jvm2        14 
+Conexoes app2_jvm3        18 
+Conexoes app3_jvm1        7 
+Conexoes app3_jvm2        17 
+Conexoes app3_jvm3        14 
+Conexoes app4_jvm1        16 
+Conexoes app4_jvm2        13 
+Conexoes app4_jvm3        6  
+ryelxdmstrw02 and ryelxdmstrw01 
+ryelxlaprspw1 
+[‎7/‎28/‎2020 7:51 AM]  Maykon Salvi/SPO/BR:  
+during the issue.. connections wer able to 100 which is bad
+ 
+[‎7/‎28/‎2020 7:51 AM]  Maykon Salvi/SPO/BR:  
+sorry won´t look at this now.
+ryelxdmstrw02 and ryelxdmstrw01   both had a dns issue 
+i fixed te dns issue last friday
+try to restart them
+thye should be fine
+restart jvms*
+dmgr and nodeagent
+they shoud be fine now
+they ad a broken dns under /etc/resolv.conf
+fixed last friday
+ 
