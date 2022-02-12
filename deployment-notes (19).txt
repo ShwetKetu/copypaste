@@ -1,0 +1,18 @@
+Please assign to ENT-MIDDLEWARE-OTHERS.
+
+Apply the following config changes on AGS3 WAS9 QAF application servers (running on 
+ dlslxgi3qaf1.dc.avon.net
+ dlslxgi3qaf2.dc.avon.net
+).
+
+Replace the following line (3rd line in the config file)
+
+api.password=ENC(TDWK01nRbVe5S8ufSGkaYRBaednqmT8u, defaultEncryptor)
+
+to
+
+api.password=ENC(PHX1bgp4gEopNQTLoAw6qBfdl3y2BHru, defaultEncryptor)
+
+in the following config file
+
+/opt/apps/gi3_qaf/mab-ordering-returns-qaf.ear/resources/com.avon.choice.returns.services.SamedayInvoker.cfg

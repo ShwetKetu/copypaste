@@ -1,0 +1,18 @@
+Please assign to ENT-MIDDLEWARE-OTHERS.
+
+QAF DEPLOYMENT REQUEST
+Deployment Manager: ryelxwebedm1.dc.avon.net
+All the below steps should be run as root!
+
+1., Run commands below:
+deployDate=`date +%Y_%m_%d_%H%M%Z`
+deployDir=/builds/qa/myavon/deploy_QAF_$deployDate
+mkdir -p $deployDir
+cd $deployDir
+
+2., Execute script(s) below:
+/opt/deploy/download-qaf.sh choice-catalog 2.1.1-SNAPSHOT
+chmod 744 *
+
+3., Execute downloaded install script(s) one by one.
+4., As wasadmin user restart mao-qaf1 application server running on ryelxwebeqaf1.rye.avon.com
