@@ -1,0 +1,75 @@
+Select Java Virtual Machine 
+In the Generic JVM arguments field enter: 
+-Djavax.management.builder.initial= 
+-Dcom.sun.management.jmxremote 
+-Dcom.sun.management.jmxremote.authenticate=false 
+-Dcom.sun.management.jmxremote.ssl=false 
+-Djava.rmi.server.hostname=hostname.domain.com
+-Dcom.sun.management.jmxremote.port=9000
+-Dcom.sun.management.jmxremote.rmi.port=9001
+Note: The port numbers need to be unique
+
+-----------------------------------------------------------
+
+-Djavax.management.builder.initial=
+-Dcom.sun.management.jmxremote
+-Dcom.sun.management.jmxremote.authenticate=false
+-Dcom.sun.management.jmxremote.ssl=false
+-Dcom.sun.management.jmxremote.port=9000
+
+
+verify the port, you can use the netstat command.
+netstat -anlp|grep 9000
+
+Jconsole is within the JDK package, so if you have this installed, you should see them under the java/bin folder. Alternatively, you can use find command.
+
+find / -name jconsole
+
+---------------------------------
+
+-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=8686 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=true -Dcom.sun.management.jmxremote.password.file="c:\jmxremote\jmxremote.password" -Dcom.sun.management.jmxremote.access.file="c:\jmxremote\jmxremote.access"
+
+-Djavax.management.builder.initial= -Djava.rmi.server.hostname=192.168.0.236 -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=8686 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false
+
+-------------------------------------jvisualvm---------------------
+
+To start monitoring the JVM with VisualVM start VisualVM by navigating to [JDK_HOME]\bin and start jvisualvm.exe (please note that when VisualVM is downloaded as a separate package the executable is called visualvm.exe instead). In VisualVM click File -> Add JMX Connection. Specify localhost:1099 in the connection field and click OK.
+If everything went OK, you should see the localhost:1099 connection under the Local node in the tree on the left. Double-click this node to start monitoring. See the following screenshot for an example:
+
+
+On the admin console Click on Servers->Server types->WebSphere application servers->server1->Process definition->Java Virtual Machine, add the following line into the field of Generic JVM Argument (note that the first system property is equal to nothing and no equal sign for the second system property):
+
+
+-Djavax.management.builder.initial= -Dcom.sun.management.jmxremote
+Add or uncomment the following three lines in file WAS_HOME/java/jre/lib/management/management.properties
+
+com.sun.management.jmxremote.port=1099
+
+com.sun.management.jmxremote.authenticate=false
+
+com.sun.management.jmxremote.ssl=false
+
+com.sun.management.jmxremote.local.only=false
+
+From Java  VisualVM Side:
+
+Go to the JAVA_HOME/bin and execute following command
+
+jvisualvm.exe
+
+Right click on the Local and clock on Add JMX connection
+
+--------------------------------------
+
+Click Java Virtual Machine
+
+In the Generic JVM arguments field enter the following properties:
+-Djavax.management.builder.initial=
+-Dcom.sun.management.jmxremote
+-Dcom.sun.management.jmxremote.authenticate=false
+-Dcom.sun.management.jmxremote.ssl=false
+-Dcom.sun.management.jmxremote.port=1099
+Alternatively you can set the properties in the management.properties file located in the installation directory of the
+WebSphere application serverAppServerjavajrelibmagagement.
+
+Step3: Restart the JVM

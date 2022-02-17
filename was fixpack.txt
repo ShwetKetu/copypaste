@@ -1,0 +1,12 @@
+commapnd to apply was fixpack from 9.0.0.0 to 9.0.5.3
+
+/opt/IBM/InstallationManager/eclipse/tools/imcl install pkgname -installationDirectory /opt/IBM/WebSphere/AppServer -repositories /opt/software/patches/WAS9.0.5.3 -record
+/opt/software/patches/fixpack_apply.xml -sP -acceptLicense
+
+/opt/IBM/InstallationManager/eclipse/tools/imcl updateAll -installationDirectory /opt/IBM/WebSphere/AppServer -repositories /opt/software/patches/WAS9.0.5.3 -record
+/opt/software/patches/fixpack_apply.xml -sP -acceptLicense
+
+interim fixpack from 9.0.5.3 to 9.0.5.10
+
+/opt/IBM/InstallationManager/eclipse/tools/imcl install fixpackId(from repository.xml file of interim fixpack pkg) -repositories /opt/software/interimfp/was/ 
+-installationDirectory /opt/IBM/WebSphere/AppServer -sp -log /tmp/interimFixpack.log 

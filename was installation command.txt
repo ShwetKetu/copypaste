@@ -1,0 +1,5 @@
+install im - ./imcl install com.ibm.cic.agent -repositories /opt/repository.config
+./imcl listAvailablePackages -repositories /opt/repository.config
+./imcl install pkgName -repositories /opt/repository.config -acceptLicense -showProgress -record install_was.xml
+./imcl install wasPkgName -repositories /opt/repository.config -installationDirectory /opt2/websphere/appserver/ -acceptLicense -showProgress
+./imcl install javaPkgName -repositories /opt/repository.config -installationDirectory /opt2/websphere/appserver/
